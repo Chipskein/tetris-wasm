@@ -1,0 +1,16 @@
+game
+build/web/*
+!build/web/.gitkeep
+build/linux/*
+!build/linux/.gitkeep
+*.o
+*.d
+*.so
+*.a
+*.dll
+*.exe
+*.out
+*.log
+raylib
+
+
