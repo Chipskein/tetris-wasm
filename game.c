@@ -6,14 +6,17 @@
 #include "settings.h"
 void UpdateDrawFrame(void);
 const Color DEFAULT_BACKGROUND_COLOR=GRAY;
-Block *playFieldBlocks[wPlayField][hPlayField];
+Block *playFieldBlocks[ROWS][COLS];
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
 int main(void)
 {
-    
+    srand(time(NULL)); 
     InitWindow(screenWidth, screenHeight, "CTetris");
+    //Tetramino *tetramino=CreateTetramino(L,ORANGE,ROWS/2-1,COLS/2-1);
+    Tetramino *tetramino=CreateRandomTetramino(ROWS/2-1,COLS/2-1);
+    DrawTetramino(tetramino,playFieldBlocks);
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -32,18 +35,18 @@ void DrawPlayField(void)
 {
     int startX = (screenWidth - wPlayField) / 2;
     int startY = (screenHeight - hPlayField) / 2;
-    for (int x = 0; x < wPlayField; x += tileSize)
+    for (int row = 0; row < ROWS; row++)
     {
-        for (int y = 0; y < hPlayField; y += tileSize)
+        for (int col = 0; col < COLS; col++)
         {
-            Block * block=playFieldBlocks[x][y];
+            Block * block=playFieldBlocks[row][col];
             if (block != NULL)
             {
-                DrawRectangle(startX+x, startY+y, tileSize-1, tileSize-1, block->color);
+                DrawRectangle(startX+row*tileSize, startY+col*tileSize, tileSize-1, tileSize-1, block->color);
             }
             else
             {
-                DrawRectangle(startX+x, startY+y, tileSize-1, tileSize-1, DEFAULT_BACKGROUND_COLOR);
+                DrawRectangle(startX+row*tileSize, startY+col*tileSize, tileSize-1, tileSize-1, DEFAULT_BACKGROUND_COLOR);
             }
         }
     }
