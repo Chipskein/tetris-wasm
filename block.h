@@ -6,4 +6,7 @@ typedef struct
     int y;
     Color color;
 } Block;
+
+Block *CreateBlock(int x, int y, Color color);
+void DestroyBlock(Block *block);
 #endif
