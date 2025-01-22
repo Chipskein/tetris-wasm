@@ -83,8 +83,6 @@ void Rotate(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
     int origin_y = tetramino->blocks[0]->y;
     for(int i=0;i<4;i++)
     {
-        int x = tetraminoShapes[tetramino->shape][i][0];
-        int y = tetraminoShapes[tetramino->shape][i][1];
         int old_x=tetramino->blocks[i]->x;
         int old_y=tetramino->blocks[i]->y;
         int rel_x = old_x - origin_x;

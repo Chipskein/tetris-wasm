@@ -1,6 +1,6 @@
 
 web:
-	emcc -o index.html *.c -Os -Wall ./raylib/src/libraylib.a -I. -Iraylib/src -L. -L raylib/src -s USE_GLFW=3 --shell-file ./raylib/src/minshell.html -DPLATFORM_WEB
+	emcc -o index.html *.c -Os -Wall ./raylib/src/libraylib.a -I. -Iraylib/src -L. -L raylib/src -s USE_GLFW=3 --shell-file ./build/web/minshell.html -DPLATFORM_WEB
 	mv index.html build/web/index.html
 	mv index.js build/web/index.js
 	mv index.wasm build/web/index.wasm
