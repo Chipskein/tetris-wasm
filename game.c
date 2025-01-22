@@ -5,7 +5,7 @@
 #include "tetramino.h"
 #include "settings.h"
 void UpdateDrawFrame(void);
-const Color DEFAULT_BACKGROUND_COLOR=GRAY;
+const Color DEFAULT_BACKGROUND_COLOR=LIGHTGRAY;
 Block *playFieldBlocks[ROWS][COLS];
 Tetramino *tetramino;
 #if defined(PLATFORM_WEB)
@@ -14,8 +14,9 @@ Tetramino *tetramino;
 int main(void)
 {
     srand(time(NULL)); 
-    InitWindow(screenWidth, screenHeight, "CTetris");
+    InitWindow(screenWidth, screenHeight, "Tetris");
     tetramino=CreateRandomTetramino(ROWS/2-1,2);
+
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -38,15 +39,10 @@ void DrawPlayField(void)
     {
         for (int col = 0; col < COLS; col++)
         {
+            Color color=DEFAULT_BACKGROUND_COLOR;
             Block * block=playFieldBlocks[row][col];
-            if (block != NULL)
-            {
-                DrawRectangle(startX+row*tileSize, startY+col*tileSize, tileSize-1, tileSize-1, block->color);
-            }
-            else
-            {
-                DrawRectangle(startX+row*tileSize, startY+col*tileSize, tileSize-1, tileSize-1, DEFAULT_BACKGROUND_COLOR);
-            }
+            if (block != NULL) color=block->color;
+            DrawRectangle(startX+row*tileSize, startY+col*tileSize, tileSize-1, tileSize-1,color);
         }
     }
 }
@@ -54,18 +50,19 @@ void DrawPlayField(void)
 
 void HandleInput(Tetramino *t,Block *playFieldBlocks[ROWS][COLS])
 {
-    if (IsKeyPressed(KEY_LEFT)) Move(t,LEFT,playFieldBlocks);
-    if (IsKeyPressed(KEY_RIGHT)) Move(t,RIGHT,playFieldBlocks);
-    if (IsKeyPressed(KEY_DOWN)) Move(t,DOWN,playFieldBlocks);
-    if (IsKeyPressed(KEY_SPACE)) Rotate(t,playFieldBlocks);
+    if (IsKeyDown(KEY_LEFT)) Move(t,LEFT,playFieldBlocks);
+    if (IsKeyDown(KEY_RIGHT)) Move(t,RIGHT,playFieldBlocks);
+    if (IsKeyDown(KEY_DOWN)) Move(t,DOWN,playFieldBlocks);
+    if (IsKeyDown(KEY_SPACE)) Rotate(t,playFieldBlocks);
 }
 void UpdateDrawFrame(void)
 {
+    
+    if (tetramino->stopped) tetramino=CreateRandomTetramino(ROWS/2-1,2);
     HandleInput(tetramino,playFieldBlocks);
     BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground(DARKGRAY);
         DrawTetramino(tetramino,playFieldBlocks);
         DrawPlayField();
     EndDrawing();
-
 }

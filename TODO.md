@@ -6,6 +6,7 @@
     [X] Block moviment(down,left,rigth)
     [X] Block Rotation
     [X] Input Key Browser and Native
+    [ ] Implement Fall Timer alike
     [ ] Block Collsion(Check bounds+Check down)
     [ ] Check Playfield Line
     [ ] Mobile Input

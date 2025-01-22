@@ -1,21 +1,20 @@
 <!doctype html>
 <html lang="EN-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-    <title>raylib web game</title>
-
-    <meta name="title" content="raylib web game">
-    <meta name="description" content="New raylib web videogame, developed using raylib videogames library">
-    <meta name="keywords" content="raylib, programming, examples, html5, C, C++, library, learn, games, videogames">
+    <title>Tetris Clone</title>
+    <meta name="title" content="Tetris Clone">
+    <meta name="description" content="Tetris Clone">
+    <meta name="keywords" content="raylib, programming, tetris, html5, C, library, games, videogames">
     <meta name="viewport" content="width=device-width">
-
     <!-- Open Graph metatags for sharing -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="raylib web game">
     <meta property="og:image:type" content="image/png">
-    <meta property="og:image" content="https://www.raylib.com/common/raylib_logo.png">
+    <meta property="og:image"
+        content="https://tetris.wiki/images/thumb/a/ae/The_Tetris_Company_logo_2019.png/300px-The_Tetris_Company_logo_2019.png">
     <meta property="og:image:alt" content="New raylib web videogame, developed using raylib videogames library" />
     <meta property="og:site_name" content="raylib - example">
     <meta property="og:url" content="https://www.raylib.com/games.html">
@@ -31,13 +30,24 @@
     <meta name="twitter:description" content="New raylib web videogame, developed using raylib videogames library">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
-
+    <link rel="shortcut icon"
+        href="https://tetris.wiki/images/thumb/a/ae/The_Tetris_Company_logo_2019.png/300px-The_Tetris_Company_logo_2019.png">
     <style>
-        body { margin: 0px; overflow: hidden; background-color: black; }
-        canvas.emscripten { border: 0px none; background-color: black; }
+        body {
+            margin: 0px;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+        }
+
+        canvas.emscripten {
+            border: 0px none;
+            background-color: black;
+        }
     </style>
-    <script type='text/javascript' src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"> </script>
+    <script type='text/javascript'
+        src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"> </script>
     <script type='text/javascript'>
         function saveFileFromMEMFSToDisk(memoryFSname, localFSname)     // This can be called by C/C++ code
         {
@@ -56,30 +66,32 @@
             saveAs(blob, localFSname);
         }
     </script>
-    </head>
-    <body>
-        <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        <p id="output" />
-        <script>
-            var Module = {
-                print: (function() {
-                    var element = document.getElementById('output');
-                    if (element) element.value = ''; // clear browser cache
-                    return function(text) {
-                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                        console.log(text);
-                        if (element) {
-                          element.value += text + "\n";
-                          element.scrollTop = element.scrollHeight; // focus on bottom
-                        }
-                    };
-                })(),
-                canvas: (function() {
-                    var canvas = document.getElementById('canvas');
-                    return canvas;
-                })()
-            };
-        </script>
-        {{{ SCRIPT }}}
-    </body>
+</head>
+
+<body>
+    <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1 align="center"></canvas>
+    <p id="output" />
+    <script>
+        var Module = {
+            print: (function () {
+                var element = document.getElementById('output');
+                if (element) element.value = ''; // clear browser cache
+                return function (text) {
+                    if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                    console.log(text);
+                    if (element) {
+                        element.value += text + "\n";
+                        element.scrollTop = element.scrollHeight; // focus on bottom
+                    }
+                };
+            })(),
+            canvas: (function () {
+                var canvas = document.getElementById('canvas');
+                return canvas;
+            })()
+        };
+    </script>
+    {{{ SCRIPT }}}
+</body>
+
 </html>
