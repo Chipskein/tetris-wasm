@@ -25,7 +25,7 @@ Tetramino *CreateTetramino(enum Shape shape, Color color, int row, int col)
         printf("Tetramino is null\n");
         exit(1);
     }
-    tetramino->angle=0;
+    tetramino->angle=90;
     tetramino->stopped=false;
     tetramino->shape = shape;
     tetramino->blocks = (Block**)malloc(4 * sizeof(Block*));
@@ -79,9 +79,49 @@ Color GetRandomColor(void)
 void Rotate(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
 {
     if(tetramino->stopped) return;
+    int origin_x = tetramino->blocks[0]->x;
+    int origin_y = tetramino->blocks[0]->y;
     for(int i=0;i<4;i++)
     {
+        int x = tetraminoShapes[tetramino->shape][i][0];
+        int y = tetraminoShapes[tetramino->shape][i][1];
+        int old_x=tetramino->blocks[i]->x;
+        int old_y=tetramino->blocks[i]->y;
+        int rel_x = old_x - origin_x;
+        int rel_y = old_y - origin_y;
+        int new_rel_x, new_rel_y;
+        switch (tetramino->angle)
+        {
+            case 0:
+                new_rel_x = rel_x;
+                new_rel_y = rel_y;
+                break;
+            case 90:
+                new_rel_x = rel_y;
+                new_rel_y = -rel_x;
+                break;
+            case 180:
+                new_rel_x = -rel_x;
+                new_rel_y = -rel_y;
+                break;
+            case 270:
+                new_rel_x = -rel_y;
+                new_rel_y = rel_x;
+                break;
+            default:
+                new_rel_x = rel_x;
+                new_rel_y = rel_y;
+                break;
+        }
+        int new_x = origin_x + new_rel_x;
+        int new_y = origin_y + new_rel_y;
+        //check collision with other blocks if has collide return
+        tetramino->blocks[i]->x = new_x;
+        tetramino->blocks[i]->y = new_y;
+        playFieldBlocks[new_x][new_y]=tetramino->blocks[i];
+        playFieldBlocks[old_x][old_y]=NULL;
     }
+    tetramino->angle = (tetramino->angle + 90) % 360;
 }
 void Move(Tetramino *tetramino,enum Direction direction,Block *playFieldBlocks[ROWS][COLS])
 {
