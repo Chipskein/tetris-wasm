@@ -25,6 +25,8 @@ Tetramino *CreateTetramino(enum Shape shape, Color color, int row, int col)
         printf("Tetramino is null\n");
         exit(1);
     }
+    tetramino->angle=0;
+    tetramino->stopped=false;
     tetramino->shape = shape;
     tetramino->blocks = (Block**)malloc(4 * sizeof(Block*));
     for (int i = 0; i < 4; i++)
@@ -54,7 +56,6 @@ Tetramino *CreateRandomTetramino(int x, int y)
 {
     enum Shape shape = GetRandomShape();
     Color color = GetRandomColor();
-    printf("[COLOR]%d %d %d %d \n",color.r,color.g,color.b,color.a);
     return CreateTetramino(shape, color, x, y);
 }
 
@@ -74,4 +75,56 @@ int GetRandomShape(void)
 Color GetRandomColor(void)
 {
     return (Color){GetRandomValue(0, 255), GetRandomValue(0, 255), GetRandomValue(0, 255), 255};
+}
+void Rotate(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
+{
+    if(tetramino->stopped) return;
+    for(int i=0;i<4;i++)
+    {
+    }
+}
+void Move(Tetramino *tetramino,enum Direction direction,Block *playFieldBlocks[ROWS][COLS])
+{
+    if(tetramino->stopped) return;
+    switch (direction)
+    {
+        case LEFT:
+            for(int i=0;i<4;i++){ 
+                if(tetramino->blocks[i]->x-1==-1) return;                
+            }
+            for(int i=0;i<4;i++){
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
+                tetramino->blocks[i]->x-=1;
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=tetramino->blocks[i];
+            }
+            break;
+        case RIGHT:
+            for(int i=0;i<4;i++){ 
+                if(tetramino->blocks[i]->x+1==ROWS) return;                
+            }
+            for(int i=0;i<4;i++){
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
+                tetramino->blocks[i]->x+=1;
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=tetramino->blocks[i];
+            }
+            break;
+        case DOWN:
+            for(int i=0;i<4;i++){ 
+                if(tetramino->blocks[i]->y+1==COLS) {
+                    tetramino->stopped=true;
+                    return;
+                }
+                //check collision with other blocks if has collide set stopped to true
+            }
+            for(int i=0;i<4;i++){
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
+                tetramino->blocks[i]->y+=1;
+                playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=tetramino->blocks[i];
+            }
+            break;
+    
+    default:
+        break;
+    }
+
 }

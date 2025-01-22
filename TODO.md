@@ -2,8 +2,9 @@
 
     [X] Draw Playfield(10wx24h)
     [X] Draw Block
-    [ ] Draw Tetranominos(I,O,T,J,L,S,Z)
-    [ ] Block moviment(down,left,rigth,rotation)
+    [X] Draw Tetranominos(I,O,T,J,L,S,Z)
+    [X] Block moviment(down,left,rigth)
+    [ ] Block Rotation
     [ ] Input Key Browser and Native,check Mobile input
     [ ] Block Collsion(Check bounds+Check down)
     [ ] Check Playfield Line

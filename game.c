@@ -7,6 +7,7 @@
 void UpdateDrawFrame(void);
 const Color DEFAULT_BACKGROUND_COLOR=GRAY;
 Block *playFieldBlocks[ROWS][COLS];
+Tetramino *tetramino;
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
@@ -14,9 +15,7 @@ int main(void)
 {
     srand(time(NULL)); 
     InitWindow(screenWidth, screenHeight, "CTetris");
-    //Tetramino *tetramino=CreateTetramino(L,ORANGE,ROWS/2-1,COLS/2-1);
-    Tetramino *tetramino=CreateRandomTetramino(ROWS/2-1,COLS/2-1);
-    DrawTetramino(tetramino,playFieldBlocks);
+    tetramino=CreateRandomTetramino(ROWS/2-1,COLS/2-1);
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -53,11 +52,19 @@ void DrawPlayField(void)
 }
 
 
-
+void HandleInput(Tetramino *t,Block *playFieldBlocks[ROWS][COLS])
+{
+    if (IsKeyPressed(KEY_LEFT)) Move(t,LEFT,playFieldBlocks);
+    if (IsKeyPressed(KEY_RIGHT)) Move(t,RIGHT,playFieldBlocks);
+    if (IsKeyPressed(KEY_DOWN)) Move(t,DOWN,playFieldBlocks);
+    if (IsKeyPressed(KEY_SPACE)) Rotate(t,playFieldBlocks);
+}
 void UpdateDrawFrame(void)
 {
+    HandleInput(tetramino,playFieldBlocks);
     BeginDrawing();
         ClearBackground(BLACK);
+        DrawTetramino(tetramino,playFieldBlocks);
         DrawPlayField();
     EndDrawing();
 
