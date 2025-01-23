@@ -25,6 +25,7 @@ Tetramino *CreateTetramino(enum Shape shape, Color color, int row, int col)
         printf("Tetramino is null\n");
         exit(1);
     }
+    tetramino->id=rand()%1000000;
     tetramino->angle=90;
     tetramino->stopped=false;
     tetramino->shape = shape;
@@ -33,7 +34,9 @@ Tetramino *CreateTetramino(enum Shape shape, Color color, int row, int col)
     {   
         int row_offset_shape=tetraminoShapes[shape][i][0];
         int col_offset_shape=tetraminoShapes[shape][i][1];
-        Block * b=CreateBlock(row+row_offset_shape,col+col_offset_shape,color);
+        int x=row+row_offset_shape % ROWS;
+        int y=col+col_offset_shape % COLS;
+        Block * b=CreateBlock(x,y,color,tetramino->id);
         if (b==NULL){
             printf("Block is null\n");
             exit(1);
@@ -79,12 +82,14 @@ Color GetRandomColor(void)
 void Rotate(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
 {
     if(tetramino->stopped) return;
-    int origin_x = tetramino->blocks[0]->x;
-    int origin_y = tetramino->blocks[0]->y;
+    Block * pivot=tetramino->blocks[0];
+    int origin_x = pivot->x;
+    int origin_y = pivot->y;
     for(int i=0;i<4;i++)
     {
-        int old_x=tetramino->blocks[i]->x;
-        int old_y=tetramino->blocks[i]->y;
+        Block * currentBlock=tetramino->blocks[i];
+        int old_x=currentBlock->x;
+        int old_y=currentBlock->y;
         int rel_x = old_x - origin_x;
         int rel_y = old_y - origin_y;
         int new_rel_x, new_rel_y;
@@ -113,22 +118,34 @@ void Rotate(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
         }
         int new_x = origin_x + new_rel_x;
         int new_y = origin_y + new_rel_y;
-        //check collision with other blocks if has collide return
-        tetramino->blocks[i]->x = new_x;
-        tetramino->blocks[i]->y = new_y;
-        playFieldBlocks[new_x][new_y]=tetramino->blocks[i];
+        bool isOutOfBounds=new_x>=ROWS || new_y>=COLS || new_x<=-1 || new_y<=-1;
+        if(isOutOfBounds) return;
+        Block* blockAtNewPos=playFieldBlocks[new_x][new_y];
+        bool hasAnyBlockAtNewPos=blockAtNewPos!=NULL;
+        bool blockIsNotInSameTetranomino= hasAnyBlockAtNewPos && blockAtNewPos->tetranominoId!=currentBlock->tetranominoId;
+        if(blockIsNotInSameTetranomino) return;
+        currentBlock->x = new_x;
+        currentBlock->y = new_y;
+        playFieldBlocks[new_x][new_y]=currentBlock;
         playFieldBlocks[old_x][old_y]=NULL;
     }
     tetramino->angle = (tetramino->angle + 90) % 360;
 }
 void Move(Tetramino *tetramino,enum Direction direction,Block *playFieldBlocks[ROWS][COLS])
 {
+    //TODO:REFACTOR
     if(tetramino->stopped) return;
     switch (direction)
     {
         case LEFT:
             for(int i=0;i<4;i++){ 
-                if(tetramino->blocks[i]->x-1==-1) return;                
+                Block* currentBlock=tetramino->blocks[i];
+                bool hasReachedBorderLimit=currentBlock->x-1==-1;
+                if(hasReachedBorderLimit) return;
+                Block* blockAtNewX=playFieldBlocks[currentBlock->x-1][currentBlock->y];
+                bool hasAnyBlockAtNewX=blockAtNewX!=NULL;
+                bool blockIsNotInSameTetranomino=hasAnyBlockAtNewX && currentBlock->tetranominoId!=blockAtNewX->tetranominoId;
+                if((blockIsNotInSameTetranomino)) return;
             }
             for(int i=0;i<4;i++){
                 playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
@@ -138,7 +155,13 @@ void Move(Tetramino *tetramino,enum Direction direction,Block *playFieldBlocks[R
             break;
         case RIGHT:
             for(int i=0;i<4;i++){ 
-                if(tetramino->blocks[i]->x+1==ROWS) return;                
+                Block* currentBlock=tetramino->blocks[i];
+                bool hasReachedBorderLimit=currentBlock->x+1==ROWS;
+                if(hasReachedBorderLimit) return;
+                Block* blockAtNewX=playFieldBlocks[currentBlock->x+1][currentBlock->y];
+                bool hasAnyBlockAtNewX=blockAtNewX!=NULL;
+                bool blockIsNotInSameTetranomino = hasAnyBlockAtNewX && currentBlock->tetranominoId!=blockAtNewX->tetranominoId;
+                if((blockIsNotInSameTetranomino)) return;
             }
             for(int i=0;i<4;i++){
                 playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
@@ -147,12 +170,19 @@ void Move(Tetramino *tetramino,enum Direction direction,Block *playFieldBlocks[R
             }
             break;
         case DOWN:
-            for(int i=0;i<4;i++){ 
-                if(tetramino->blocks[i]->y+1==COLS) {
+            for(int i=0;i<4;i++){
+                Block* currentBlock=tetramino->blocks[i];
+                bool hasReachedBorderLimit=currentBlock->y+1==COLS-1;
+                if(hasReachedBorderLimit) {
+                    tetramino->stopped=true;
+                }
+                Block* blockAtNewY=playFieldBlocks[currentBlock->x][currentBlock->y+1];
+                bool hasAnyBlockAtNewY=blockAtNewY!=NULL;
+                bool blockIsNotInSameTetranomino=hasAnyBlockAtNewY && currentBlock->tetranominoId!=blockAtNewY->tetranominoId;
+                if(blockIsNotInSameTetranomino) {
                     tetramino->stopped=true;
                     return;
                 }
-                //check collision with other blocks if has collide set stopped to true
             }
             for(int i=0;i<4;i++){
                 playFieldBlocks[tetramino->blocks[i]->x][tetramino->blocks[i]->y]=NULL;
