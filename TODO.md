@@ -6,9 +6,11 @@
     [X] Block moviment(down,left,rigth)
     [X] Block Rotation
     [X] Input Key Browser and Native
+    [X] Block Collsion
+    [X] Check Playfield Line
+    [ ] Add Speed velocity
     [ ] Implement Fall Timer alike
-    [ ] Block Collsion(Check bounds+Check down)
-    [ ] Check Playfield Line
+    [ ] Fix bugs
     [ ] Mobile Input
     [ ] Add score
     [ ] Add preview next tetramino

@@ -9,6 +9,7 @@ typedef struct{
     enum Shape shape;
     bool stopped;
     int angle;//0 90 180 270
+    int id; //random id to verify stuff
 } Tetramino;
 Tetramino *CreateTetramino(enum Shape shape, Color color,int x, int y);
 Tetramino *CreateRandomTetramino(int x, int y);
