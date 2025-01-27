@@ -70,6 +70,18 @@ void DrawTetramino(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS])
     }
 };
 
+bool CheckBlockOut(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS]){
+    //Blockout: A piece is spawned overlapping at least one block in the playfield
+    for(int i=0;i<4;i++){
+        Block *block=tetramino->blocks[i];
+        Block *field=playFieldBlocks[block->x][block->y];
+        if(field!=NULL&&block->tetranominoId!=field->tetranominoId){
+            return true;
+        }
+    }
+    return false;
+}
+
 int GetRandomShape(void)
 {
     return rand() % 7;

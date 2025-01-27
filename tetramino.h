@@ -14,6 +14,7 @@ typedef struct{
 Tetramino *CreateTetramino(enum Shape shape, Color color,int x, int y);
 Tetramino *CreateRandomTetramino(int x, int y);
 void DestroyTetramino(Tetramino *tetramino);
+bool CheckBlockOut(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS]);
 void DrawTetramino(Tetramino *tetramino,Block *playFieldBlocks[ROWS][COLS]);
 int GetRandomShape(void);
 Color GetRandomColor(void);

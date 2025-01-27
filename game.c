@@ -89,6 +89,10 @@ void CheckLines(void){
 void UpdateDrawFrame(void)
 {
     if (tetramino->stopped) tetramino=CreateRandomTetramino(ROWS/2-1,2);
+    if(CheckBlockOut(tetramino,playFieldBlocks)){
+        printf("Game Over\n");
+        exit(0);
+    };
     HandleInput(tetramino,playFieldBlocks);
     UpdateTimer(fallTimer);
     if(TimerHasFinished(fallTimer)){

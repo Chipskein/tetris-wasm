@@ -9,7 +9,7 @@
     [X] Block Collsion
     [X] Check Playfield Line
     [X] Implement Fall Timer alike
-    [ ] Game Over
+    [X] Game Over
     [ ] Add sound
     [ ] Add score
     [ ] Add Speed velocity
