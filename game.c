@@ -4,19 +4,25 @@
 #include "block.h"
 #include "tetramino.h"
 #include "settings.h"
+#include "timer.h"
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
+
 void UpdateDrawFrame(void);
 const Color DEFAULT_BACKGROUND_COLOR=LIGHTGRAY;
 Block *playFieldBlocks[ROWS][COLS];
 Tetramino *tetramino;
-#if defined(PLATFORM_WEB)
-    #include <emscripten/emscripten.h>
-#endif
+float FALL_TIME=1.0f;
+Timer *fallTimer;
+
 int main(void)
 {
-    srand(time(NULL)); 
+    srand(time(NULL));
+    fallTimer=CreateTimer();
+    StartTimer(fallTimer,FALL_TIME);
     InitWindow(screenWidth, screenHeight, "Tetris");
     tetramino=CreateRandomTetramino(ROWS/2-1,2);
-    
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -82,9 +88,13 @@ void CheckLines(void){
 
 void UpdateDrawFrame(void)
 {
-    
     if (tetramino->stopped) tetramino=CreateRandomTetramino(ROWS/2-1,2);
     HandleInput(tetramino,playFieldBlocks);
+    UpdateTimer(fallTimer);
+    if(TimerHasFinished(fallTimer)){
+        Move(tetramino,DOWN,playFieldBlocks);
+        StartTimer(fallTimer,FALL_TIME);
+    }
     BeginDrawing();
         ClearBackground(DARKGRAY);
         DrawTetramino(tetramino,playFieldBlocks);
