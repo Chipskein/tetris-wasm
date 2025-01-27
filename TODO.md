@@ -8,13 +8,14 @@
     [X] Input Key Browser and Native
     [X] Block Collsion
     [X] Check Playfield Line
+    [X] Implement Fall Timer alike
+    [ ] Game Over
+    [ ] Add sound
+    [ ] Add score
     [ ] Add Speed velocity
-    [ ] Implement Fall Timer alike
     [ ] Fix bugs
     [ ] Mobile Input
-    [ ] Add score
     [ ] Add preview next tetramino
-    [ ] Add sound
     [ ] Add down speed increse by level
     [ ] Add level system just like tetris(NES) (99 MAX)
     [ ] Add menu with score
