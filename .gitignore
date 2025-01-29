@@ -10,6 +10,6 @@ build/linux/*
 *.exe
 *.out
 *.log
-raylib
+raylib-old
 
 
