@@ -13,7 +13,7 @@
 ### Keymap
 | Key             | Action                                                                                                  |
 |-----------------|---------------------------------------------------------------------------------------------------------|
-| `KEY_ESCAPE`    | Closes the window(linux only).                                                                          |
+| `KEY_ESCAPE`    | Closes the window.                                                                          |
 | `KEY_SPACE`     | Rotate                                                                                                  |
 | `KEY_RIGHT`     | Move right                                                                                              |
 | `KEY_LEFT`      | Move left                                                                                               |
