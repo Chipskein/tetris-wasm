@@ -21,7 +21,6 @@ void StartTimer(Timer *timer,float duration){
         return;
     };
     timer->Duration=duration;
-    printf("Timer Started\n");
 }
 
 void UpdateTimer(Timer *t){

@@ -10,12 +10,8 @@
     [X] Check Playfield Line
     [X] Implement Fall Timer alike
     [X] Game Over
-    [ ] Add sound
     [ ] Add score
-    [ ] Add Speed velocity
+    [ ] Add sound(find assets)
     [ ] Fix bugs
     [ ] Mobile Input
-    [ ] Add preview next tetramino
-    [ ] Add down speed increse by level
-    [ ] Add level system just like tetris(NES) (99 MAX)
-    [ ] Add menu with score
+    

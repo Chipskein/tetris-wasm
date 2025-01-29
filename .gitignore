@@ -1,7 +1,5 @@
 game
-build/web/*
 !build/web/.gitkeep
-!build/web/minshell.html
 build/linux/*
 !build/linux/.gitkeep
 *.o
