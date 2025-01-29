@@ -22,17 +22,24 @@
 
 
 ### How to Build
-  * linux(CC)
+
+  * Clone recursively
     
-        make linux
+        git clone --recursive https://github.com/Chipskein/tetris-wasm.git
+    
+  * Compile
 
-  * WASM([Emscripten](https://emscripten.org/docs/introducing_emscripten/index.html))
-
-        make web
-
-  * for both
-
-        make
+      * linux(CC)
+        
+            make linux
+    
+      * WASM([Emscripten](https://emscripten.org/docs/introducing_emscripten/index.html))
+    
+            make web
+    
+      * for both
+    
+            make
 
 ### How to Run(linux)
 
